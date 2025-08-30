@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: pg14
+    restart: always
+    # image: postgres:12.15-bullseye
+    image : postgres:14.18-bookworm
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - /var/lib/pgsql/pg:/var/lib/postgresql/data
+      - /var/lib/pgsql/bkp:/var/backups
+      # - /sesuite/repo/pgaudi/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+      # - /sesuite/repo/pgaudi/postgres/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+      - /var/lib/pgsql/scripts:/var/scripts
+      - ./postgresql.conf:/var/config/postgresql.conf:ro
+      - ./pg_hba.conf:/var/config/pg_hba.conf:ro
+    networks:
+      - postgres-network
+    command:  >
+      -c config_file=/var/config/postgresql.conf
+      -c hba_file=/var/config/pg_hba.conf
+
+networks:
+  postgres-network:
+    driver: bridge
