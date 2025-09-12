@@ -13,8 +13,6 @@ services:
     volumes:
       - /var/lib/pgsql/pg:/var/lib/postgresql/data
       - /var/lib/pgsql/bkp:/var/backups
-      # - /sesuite/repo/pgaudi/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
-      # - /sesuite/repo/pgaudi/postgres/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
       - /var/lib/pgsql/scripts:/var/scripts
       - ./postgresql.conf:/var/config/postgresql.conf:ro
       - ./pg_hba.conf:/var/config/pg_hba.conf:ro
