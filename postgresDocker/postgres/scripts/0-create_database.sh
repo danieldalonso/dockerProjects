@@ -7,7 +7,7 @@
 # versao 1.0           #
 ########################
 
-echo "Infomar versão do Banco (12, 13, 14, 15)"
+echo "Infomar versão do Banco (12, 13, 14, 15, 16)"
 read pgversion
 echo "informar nome do banco/username a ser criado: "
 read user

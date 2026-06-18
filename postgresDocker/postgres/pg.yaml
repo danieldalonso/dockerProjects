@@ -2,10 +2,10 @@ version: '3'
 
 services:
   postgres:
-    container_name: pg15
+    container_name: pg16
     restart: always
     # image: postgres:12.15-bullseye
-    image : postgres:15.18-alpine3.24
+    image : postgres:16.14-alpine3.23
     environment:
       POSTGRES_PASSWORD: "postgres"
     ports:
