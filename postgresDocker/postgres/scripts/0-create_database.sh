@@ -17,7 +17,7 @@ docker exec -t pg${pgversion} mkdir /var/lib/postgresql/data/tbs
 docker exec -t pg${pgversion} mkdir /var/lib/postgresql/data/tbs/${user}_data
 docker exec -t pg${pgversion} mkdir /var/lib/postgresql/data/tbs/${user}_indexes
 docker exec -t pg${pgversion} chmod 700 /var/lib/postgresql/data/tbs -Rf
-docker exec -t pg${pgversion} chown postgres.postgres /var/lib/postgresql/data/tbs -Rf
+docker exec -t pg${pgversion} chown postgres:postgres /var/lib/postgresql/data/tbs -Rf
 
 #ajuste de script
 cp /sesuite/db/pgaudi/postgres/scripts/createdb.sql /var/lib/pgsql/scripts/${user}.sql
