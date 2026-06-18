@@ -2,16 +2,25 @@
 
 echo "Selecione um dos arquivos"
 echo $(ls /var/lib/pgsql/bkp/)
+echo $(pwd)
+
+default_backup_dir="/var/lib/pgsql/bkp"
 
 read -p "Informe o nome do banco de dados: " database_name
 read -p "Informe o usuário do banco: " database_user
-read -p "Informe o caminho completo do backup (.pg_dump): " backup_path
+read -p "Informe o nome do backup em ${default_backup_dir} ou o caminho completo (.pg_dump): " backup_input
 
 
 
 database_name=$(echo "$database_name" | xargs)
 database_user=$(echo "$database_user" | xargs)
-backup_path=$(echo "$backup_path" | xargs)
+backup_input=$(echo "$backup_input" | xargs)
+
+if [[ "$backup_input" == */* ]]; then
+    backup_path="$backup_input"
+else
+    backup_path="${default_backup_dir}/${backup_input}"
+fi
 
 echo ""
 echo "Banco........: $database_name"
