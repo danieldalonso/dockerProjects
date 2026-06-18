@@ -47,7 +47,7 @@ elif [ "$options" -eq 2 ]; then
     else
         echo "O script \"$pwd\" não existe."
     fi
-    docker exec -t "$CONTAINER_NAME" psql -U postgres -f "/var/scripts/fix_indexes_$database_name.sql" -o "/var/scripts/$database_name-fix_indexes.log"
+    docker exec -t "$CONTAINER_NAME" psql -U $database_name -f "/var/scripts/fix_indexes_$database_name.sql" -o "/var/scripts/$database_name-fix_indexes.log"
     echo "-------------------------------------------------------"
     cat "/var/lib/pgsql/scripts/$database_name-fix_indexes.log"
     echo "-------------------------------------------------------"
