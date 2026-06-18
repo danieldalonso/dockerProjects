@@ -59,41 +59,9 @@ fi
 
 echo "Restore concluído."
 
-echo "Gerando script de correção de tablespaces..."
-
-cat > /tmp/corrigetbs.sql << EOF
-SELECT
-    'ALTER INDEX '||schemaname||'.'||indexname||
-    ' SET TABLESPACE ${database_user}_indexes;'
-FROM pg_indexes
-WHERE schemaname NOT IN ('pg_catalog','information_schema')
-
-UNION ALL
-
-SELECT
-    'ALTER TABLE '||schemaname||'.'||tablename||
-    ' SET TABLESPACE ${database_user}_data;'
-FROM pg_tables
-WHERE schemaname NOT IN ('pg_catalog','information_schema');
-EOF
-
-docker cp /tmp/corrigetbs.sql \
-    "$CONTAINER_NAME:/tmp/corrigetbs.sql"
-
-docker exec -t "$CONTAINER_NAME" \
-    psql -U "$database_user" \
-    -d "$database_name" \
-    -f /tmp/corrigetbs.sql \
-    -o /tmp/altertbs.sql
-
-docker exec -t "$CONTAINER_NAME" \
-    psql -U "$database_user" \
-    -d "$database_name" \
-    -f /tmp/altertbs.sql \
-    -o /tmp/log_alter_tbs.log
-
-echo "Correção de tablespaces concluída."
-echo ""
-echo "Arquivos gerados no container:"
-echo "  /tmp/altertbs.sql"
-echo "  /tmp/log_alter_tbs.log"
+docker exec -t "$CONTAINER_NAME" psql -U $database_name -f "/var/scripts/fix_indexes_$database_name.sql" -o "/var/scripts/alter_indexes_$database_name.sql"
+docker exec -t "$CONTAINER_NAME" psql -U $database_name -f "/var/scripts/alter_indexes_$database_name.sql" -o "/var/scripts/alter_indexes_$database_name.log"
+docker log "$CONTAINER_NAME" -f
+echo "-------------------------------------------------------"
+cat "/var/lib/pgsql/scripts/alter_indexes_$database_name.log"
+echo "-------------------------------------------------------"
