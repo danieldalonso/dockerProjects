@@ -51,7 +51,7 @@ elif [ "$options" -eq 2 ]; then
     docker exec -t "$CONTAINER_NAME" psql -U $database_name -f "/var/scripts/alter_indexes_$database_name.sql" -o "/var/scripts/alter_indexes_$database_name.log"
     
     echo "-------------------------------------------------------"
-    cat "/var/scripts/alter_indexes_$database_name.log"
+    cat "/var/lib/pgsql/scripts/alter_indexes_$database_name.log"
     echo "-------------------------------------------------------"
 else
     echo "ERRO: Opção inválida: $options"
